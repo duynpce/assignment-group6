@@ -21,12 +21,19 @@ public  class Screen {
     }
 
     public static void inPetScreen(){
+
+        System.out.println("what kind of operation that you want ?");
+        System.out.println("1 : add");
+        System.out.println("2 : remove"); 
+        System.out.println("3 : find");
+        System.out.println("4 : change");
+        System.out.println("5 : view all");
+
         System.out.println("what do you want to operate with ?");
         System.out.println("1 : Dogs");
         System.out.println("2 : Cats"); 
         System.out.println("3 : other animals");
         Util.makeChoice(1, 3);
-
         switch (Util.choice) {
             case 1:
                 inDogScreen();
@@ -38,31 +45,12 @@ public  class Screen {
                 inOtherPetScreen();
                 break;
         }
-        
-
-        System.out.println("what kind of operation that you want ?");
-        System.out.println("1 : add");
-        System.out.println("2 : remove"); 
-        System.out.println("3 : find");
-        System.out.println("4 : change");
-        System.out.println("5 : view all");
-        Util.makeChoice(1, 5);
        
     }
 
-    private static void petOperationsScreen(){
-        System.out.println("what kind of operation that you want ?");
-        System.out.println("1 : add");
-        System.out.println("2 : remove"); 
-        System.out.println("3 : find");
-        System.out.println("4 : change");
-        System.out.println("5 : view all");
-
-    }
 
     private static void inDogScreen(){
 
-        petOperationsScreen();
         Util.makeChoice(1, 5);
         switch (Util.choice) {
             case 1:
@@ -108,7 +96,6 @@ public  class Screen {
 
     public static void inOtherPetScreen(){
 
-        petOperationsScreen();
         Util.makeChoice(1, 5);
         switch (Util.choice) {
             case 1:
@@ -131,7 +118,13 @@ public  class Screen {
 
     
     public static void inCustomerScreen(){
-        petOperationsScreen();
+        System.out.println("what kind of operation that you want ?");
+        System.out.println("1 : add");
+        System.out.println("2 : remove"); 
+        System.out.println("3 : find");
+        System.out.println("4 : change");
+        System.out.println("5 : view all profile");
+        System.out.println("6 : view customer transation history");
         Util.makeChoice(1, 6);
         switch (Util.choice) {
             case 1:
