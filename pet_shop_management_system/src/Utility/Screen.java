@@ -1,16 +1,21 @@
 package Utility;
 
-import Service.CustomerService;
-import Service.DogService;
-import Service.CatService;
-import Service.OtherPetService;
-import Service.TransactionService;
+import Service.*;
 
 public  class Screen {
     private static DogService dogService  = DogService.getInstance();
     private static CatService catService  = CatService.getInstance();
     private static OtherPetService otherPetService  = OtherPetService.getInstance();
-    
+
+    private static void petOperations(){
+        System.out.println("what kind of operation that you want ?");
+        System.out.println("1 : add");
+        System.out.println("2 : remove");
+        System.out.println("3 : find");
+        System.out.println("4 : change");
+        System.out.println("5 : view all");
+    }
+
     public static void managementScreen(){
         System.out.println("welcome to pet shop management system ");
         System.out.println("features with : ");
@@ -22,12 +27,6 @@ public  class Screen {
 
     public static void inPetScreen(){
 
-        System.out.println("what kind of operation that you want ?");
-        System.out.println("1 : add");
-        System.out.println("2 : remove"); 
-        System.out.println("3 : find");
-        System.out.println("4 : change");
-        System.out.println("5 : view all");
 
         System.out.println("what do you want to operate with ?");
         System.out.println("1 : Dogs");
@@ -51,6 +50,7 @@ public  class Screen {
 
     private static void inDogScreen(){
 
+        petOperations();
         Util.makeChoice(1, 5);
         switch (Util.choice) {
             case 1:
@@ -73,7 +73,7 @@ public  class Screen {
 
     public static void inCatScreen(){
 
-       
+        petOperations();
         Util.makeChoice(1, 5);
         switch (Util.choice) {
             case 1:
@@ -95,7 +95,7 @@ public  class Screen {
     }
 
     public static void inOtherPetScreen(){
-
+        petOperations();
         Util.makeChoice(1, 5);
         switch (Util.choice) {
             case 1:
