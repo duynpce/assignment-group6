@@ -1,6 +1,7 @@
 package models;
+import java.io.Serializable;
 
-public class OtherPet extends Pet {
+public class OtherPet extends Pet implements Serializable {
     private String specie;
 
     public OtherPet() {
