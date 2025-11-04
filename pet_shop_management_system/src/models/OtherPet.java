@@ -27,4 +27,9 @@ public class OtherPet extends Pet implements Serializable {
     public void play() {
         System.out.println("The pet is playing.");
     }
+    @Override
+    public String toString() {
+
+        return "OtherPet[" + super.toString() + ", Specie='" + specie + "']";
+    }
 }
