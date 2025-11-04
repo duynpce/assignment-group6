@@ -23,11 +23,11 @@ public class OtherPetService implements PetService {
         System.out.println("=== Add New Other Pet ===");
 
         int id = Util.enterPositiveIntWithPromt("Enter pet ID: ");
-        String name = Util.enterNonEmptyString("Enter pet name: ");
+        String name = Util.nextLineWithPromt("Enter pet name: ");
         int age = Util.enterPositiveIntWithPromt("Enter pet age: ");
-        double price = Util.enterPositiveDouble("Enter pet price: ");
-        String gender = Util.enterNonEmptyString("Enter pet gender: ");
-        String specie = Util.enterNonEmptyString("Enter pet specie: ");
+        double price = Util.enterPositiveDoubleWithPromt("Enter pet price: ");
+        String gender = Util.nextLineWithPromt("Enter pet gender: ");
+        String specie = Util.nextLineWithPromt("Enter pet specie: ");
 
         otherPets.add(new OtherPet(id, age, price, name, gender, specie));
         System.out.println("✅ Other pet added successfully!");
@@ -49,7 +49,7 @@ public class OtherPetService implements PetService {
     @Override
     public void find() {
         System.out.println("=== Find Other Pet ===");
-        String name = Util.enterNonEmptyString("Enter pet name to find: ");
+        String name = Util.nextLineWithPromt("Enter pet name to find: ");
 
         for (OtherPet pet : otherPets) {
             if (pet.getName().equalsIgnoreCase(name)) {
@@ -67,7 +67,7 @@ public class OtherPetService implements PetService {
 
         for (OtherPet pet : otherPets) {
             if (pet.getID() == id) {
-                double newPrice = Util.enterPositiveDouble("Enter new price: ");
+                double newPrice = Util.enterPositiveDoubleWithPromt("Enter new price: ");
                 pet.setPrice(newPrice);
                 System.out.println("✅ Updated successfully!");
                 return;
