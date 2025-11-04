@@ -46,5 +46,13 @@ public abstract class Pet implements Serializable {
         System.out.println("gender : " + getGender());
         System.out.println("specie : " + getSpecie());
     }
+    @Override
+    public String toString() {
+        return "ID=" + ID +
+                ", Name='" + name + '\'' +
+                ", Age=" + age +
+                ", Price=" + price +
+                ", Gender='" + gender + '\'';
+    }
 
 } 
