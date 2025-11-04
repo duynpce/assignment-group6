@@ -21,7 +21,7 @@ public class Main {
             int stop = Util.enterPositiveIntWithPromt("enter 1 to stop the program ");
             running =  stop != 1;
         } 
-        PetService.save();;
-        
+        PetService.save();
+
     } 
 }

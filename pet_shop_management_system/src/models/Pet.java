@@ -14,6 +14,8 @@ public abstract class Pet implements Serializable {
         this.age = age;
         this.price = price;
         this.name = name;
+
+        if(!gender.equals("Male") && !gender.equals("Female")) return;
         this.gender = gender;
     }
 
@@ -30,7 +32,10 @@ public abstract class Pet implements Serializable {
     public void setName(String name ){ this.name = name; }
 
     public String getGender(){ return gender;};
-    public void setGender(String gender){ this.gender = gender;};
+    public void setGender(String gender){
+        if(!gender.equals("Male") && !gender.equals("Female")) return;
+        this.gender = gender;
+    };
 
     public abstract String getSpecie();
     public abstract void setSpecie(String speice);
@@ -40,11 +45,11 @@ public abstract class Pet implements Serializable {
     
     public void display(){
         System.out.println("ID : " + getID());
-        System.out.println("age : " + getAge());
-        System.out.println("price : " + getPrice());
-        System.out.println("name : " + getName());
-        System.out.println("gender : " + getGender());
-        System.out.println("specie : " + getSpecie());
+        System.out.println("Age : " + getAge());
+        System.out.println("Price : " + getPrice());
+        System.out.println("Name : " + getName());
+        System.out.println("Gender : " + getGender());
+        System.out.println("Specie : " + getSpecie());
     }
     @Override
     public String toString() {

@@ -49,15 +49,13 @@ public class CatService implements PetService{
             System.out.println("No cat found with ID " + id + ".");
         }
     }
-    
-
 
     @Override
     public void find() {
         System.out.println("--- Find Cat ---");
         int id = Util.enterPositiveIntWithPromt("Enter Cat ID to find: ");
         Pet foundCat = petMap.get(id);
-        if(foundCat != null && foundCat instanceof Cat){
+        if(foundCat instanceof Cat){
             System.out.println("Cat found:");
             System.out.println(foundCat);
         }
@@ -72,7 +70,7 @@ public class CatService implements PetService{
         int id = Util.enterPositiveIntWithPromt("Enter Cat ID to update: ");
         Pet pet = petMap.get(id);
 
-        if(pet != null && pet instanceof Cat){
+        if(pet instanceof Cat){
             Cat cat = (Cat) pet;
             System.out.println("Current info: " + cat);
 
