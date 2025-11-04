@@ -2,14 +2,21 @@ package Service;
 
 import models.OtherPet;
 import Utility.Util;
+
 import java.util.ArrayList;
+import java.io.*;
 
 public class OtherPetService implements PetService {
 
     private static OtherPetService otherPetService;
-    private static ArrayList<OtherPet> otherPets = new ArrayList<>();
+    private static ArrayList<OtherPet> otherPets;
+    private static final String FILE_NAME = "OtherPet.data"; // File to store data
 
-    private OtherPetService() {}
+    // Constructor will be called when getInstance() runs the first time
+    private OtherPetService() {
+        // Load previous data (if any) on startup
+        loadData();
+    }
 
     public static OtherPetService getInstance() {
         if (otherPetService == null) {
@@ -31,6 +38,9 @@ public class OtherPetService implements PetService {
 
         otherPets.add(new OtherPet(id, age, price, name, gender, specie));
         System.out.println("✅ Other pet added successfully!");
+
+        // --- SAVE DATA ---
+        saveData();
     }
 
     @Override
@@ -41,6 +51,8 @@ public class OtherPetService implements PetService {
         boolean removed = otherPets.removeIf(p -> p.getID() == id);
         if (removed) {
             System.out.println("✅ Removed successfully!");
+            // --- SAVE DATA ---
+            saveData();
         } else {
             System.out.println("⚠️ Pet not found.");
         }
@@ -70,6 +82,8 @@ public class OtherPetService implements PetService {
                 double newPrice = Util.enterPositiveDoubleWithPromt("Enter new price: ");
                 pet.setPrice(newPrice);
                 System.out.println("✅ Updated successfully!");
+                // --- SAVE DATA ---
+                saveData();
                 return;
             }
         }
@@ -79,12 +93,43 @@ public class OtherPetService implements PetService {
     @Override
     public void viewAll() {
         System.out.println("=== List of Other Pets ===");
-        if (otherPets.isEmpty()) {
+        if (otherPets == null || otherPets.isEmpty()) {
             System.out.println("No other pets available.");
             return;
         }
         for (OtherPet pet : otherPets) {
             System.out.println(pet);
+        }
+    }
+
+    // =======================================================
+    // FUNCTIONS TO SAVE AND LOAD DATA
+    // =======================================================
+
+    /**
+     * Writes the current otherPets list to the FILE_NAME
+     */
+    private void saveData() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
+            oos.writeObject(otherPets);
+        } catch (IOException e) {
+  
+            System.err.println("Error saving OtherPet data: " + e.getMessage());
+        }
+    }
+
+
+    private void loadData() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_NAME))) {
+            otherPets = (ArrayList<OtherPet>) ois.readObject();
+        } catch (FileNotFoundException e) {
+
+            System.out.println("OtherPet data file not found. Starting with an empty list.");
+            otherPets = new ArrayList<>();
+        } catch (IOException | ClassNotFoundException e) {
+           
+            System.err.println("Error loading OtherPet data: " + e.getMessage());
+            otherPets = new ArrayList<>();
         }
     }
 }
