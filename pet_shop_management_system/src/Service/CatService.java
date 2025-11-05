@@ -8,7 +8,7 @@ import Utility.Util;
 public class CatService implements PetService{
     private static CatService catService;
 
-     private CatService() {
+    private CatService() {
     }
 
 
@@ -18,7 +18,7 @@ public class CatService implements PetService{
         }
         return catService;
     }
-    
+
     @Override
     public void add() {
         System.out.println("--- Add New Cat ---");
@@ -30,12 +30,21 @@ public class CatService implements PetService{
         String name = Util.nextLineWithPromt("Enter Cat Name: ");
         int age = Util.enterPositiveIntWithPromt("Enter Cat Age: ");
         double price = Util.enterPositiveDoubleWithPromt("Enter Cat Price: ");
-        String gender = Util.nextLineWithPromt("Enter Cat Gender (Male/Female): ");
+        String gender = "";
+        while(true){
+            gender = Util.nextLineWithPromt("Enter Cat Gender (Male/Female): ");
+            if(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female")) {
+                break;
+            }
+            else{
+                System.out.println("Invalid input! Please enter only 'Male' or 'Female'");
+            }
+        }
 
         Cat newCat = new Cat(id, age, price, name, gender);
         petMap.put(id, newCat);
         System.out.println("Cat added successfully!");
-    }   
+    }
 
     @Override
     public void remove() {
@@ -46,21 +55,23 @@ public class CatService implements PetService{
             System.out.println("Cat with ID " + id + " removed successfully!");
         }
         else{
-            System.out.println("No cat found with ID " + id + ".");
+            System.out.println("No cat found with ID " + id);
         }
     }
+
+
 
     @Override
     public void find() {
         System.out.println("--- Find Cat ---");
         int id = Util.enterPositiveIntWithPromt("Enter Cat ID to find: ");
         Pet foundCat = petMap.get(id);
-        if(foundCat instanceof Cat){
+        if(foundCat != null && foundCat instanceof Cat){
             System.out.println("Cat found:");
-            System.out.println(foundCat);
+            foundCat.display();
         }
         else{
-            System.out.println("No cat found with ID " + id + ".");
+            System.out.println("No cat found with ID " + id);
         }
     }
 
@@ -70,29 +81,60 @@ public class CatService implements PetService{
         int id = Util.enterPositiveIntWithPromt("Enter Cat ID to update: ");
         Pet pet = petMap.get(id);
 
-        if(pet instanceof Cat){
+        if(pet != null && pet instanceof Cat) {
             Cat cat = (Cat) pet;
-            System.out.println("Current info: " + cat);
+            System.out.println("Current info: ");
+            cat.display();
 
-            String name = Util.nextLineWithPromt("Enter new name (or press Enter to keep current): ");
-            if (!name.isEmpty()) cat.setName(name);
+            boolean continueEdit = true;
+            while(continueEdit){
+                System.out.println("What do you want to change?");
+                System.out.println("1 Age | 2 Price | 3 Name | 4 Gender | 5 Exit");
+                System.out.println("Enter Your Choice(1-5): ");
+                Util.makeChoice(1, 5);
 
-            System.out.print("Enter new age (or -1 to keep current): ");
-            int age = Util.enterPositveInt();
-            if (age >= 0) cat.setAge(age);
-
-            System.out.print("Enter new price (or -1 to keep current): ");
-            double price = Util.entePositiverDouble();
-            if (price >= 0) cat.setPrice(price);
-
-            String gender = Util.nextLineWithPromt("Enter new gender (or press Enter to keep current): ");
-            if (!gender.isEmpty()) cat.setGender(gender);
-
-            petMap.put(id, cat);
-            System.out.println("Cat info updated successfully!");
+                switch (Util.choice) {
+                    case 1:
+                        int newAge = Util.enterPositiveIntWithPromt("Enter Cat Age: ");
+                        cat.setAge(newAge);
+                        System.out.println("Cat Age updated successfully!");
+                        break;
+                    case 2:
+                        double newPrice = Util.enterPositiveDoubleWithPromt("Enter Cat Price: ");
+                        cat.setPrice(newPrice);
+                        System.out.println("Cat Price updated successfully!");
+                        break;
+                    case 3:
+                        String newName = Util.nextLineWithPromt("Enter Cat Name: ");
+                        cat.setName(newName);
+                        System.out.println("Cat Name updated successfully!");
+                        break;
+                    case 4:
+                        String newGender = Util.nextLineWithPromt("Enter Cat Gender: ");
+                        cat.setGender(newGender);
+                        System.out.println("Cat Gender updated successfully!");
+                        break;
+                    case 5:
+                        continueEdit = false;
+                        System.out.println("--- Exiting ---");
+                        break;
+                    default:
+                        System.out.println("Invalid choice!");
+                }
+                if(continueEdit){
+                    String edit = Util.nextLineWithPromt("Do you want to continue editing (Yes/No)");
+                    while(!edit.equalsIgnoreCase("Yes") && !edit.equalsIgnoreCase("No")){
+                        edit = Util.nextLineWithPromt("Invalid input! Plese enter Yes or No");
+                    }
+                    if(edit.equalsIgnoreCase("No")){
+                        continueEdit = false;
+                        System.out.println("--- Exiting ---");
+                    }
+                }
+            }
         }
         else{
-            System.out.println("No cat found with ID " + id + ".");
+            System.out.println("Cat ID not existed!");
         }
     }
 
@@ -100,9 +142,10 @@ public class CatService implements PetService{
     public void viewAll() {
         System.out.println("--- View All Cats ---");
         boolean hasCat = false;
-        for(Map.Entry<Integer, Pet> entry : petMap.entrySet()){
-            if(entry.getValue() instanceof Cat){
-                System.out.println(entry.getValue());
+        for(Pet pet: petMap.values()){
+            if(pet instanceof Cat){
+                pet.display();
+                System.out.println();
                 hasCat = true;
             }
         }
