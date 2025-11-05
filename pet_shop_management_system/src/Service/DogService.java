@@ -36,8 +36,8 @@ public class DogService implements PetService{
         double price = Util.enterPositiveDoubleWithPromt("Enter Dog Price: ");
 
         String gender = Util.nextLineWithPromt("Enter Dog Gender (Type in either Male or Female): ");
-        while(!gender.equals("Male") && !gender.equals("Female")){
-            gender = Util.nextLineWithPromt("invalid gender, enter again: ");
+        while(!gender.equalsIgnoreCase("Male") && !gender.equalsIgnoreCase("Female")){
+            gender = Util.nextLineWithPromt("Invalid gender, please enter again: ");
         }
 
         Dog newDog = new Dog(id, age, price, name, gender);
@@ -90,23 +90,57 @@ public class DogService implements PetService{
             Dog dog = (Dog) pet;
             System.out.println("Current information: ");
             dog.display();
+            boolean isEditing = true;
+            while(isEditing){
+                System.out.println("\nWhat you want to change?");
+                System.out.println("1: Name | 2: Age | 3: Price | 4: Gender | 5: Exit");
+                Util.makeChoice(1,5);
+                switch (Util.choice){
+                    case 1:
+                        String newName = Util.nextLineWithPromt("Enter new name: ");
+                        if (!newName.isEmpty()){
+                            dog.setName(newName);
+                            System.out.println("✔ Update Name Successfully!");
+                        }
+                        break;
+                    case 2:
+                        int newAge = Util.enterPositiveIntWithPromt("Enter new age: ");
+                        dog.setAge(newAge);
+                        System.out.println("✔ Update Age Successfully!");
+                        break;
+                    case 3:
+                        double newPrice = Util.enterPositiveDoubleWithPromt("Enter new Price: ");
+                        dog.setPrice(newPrice);
+                        System.out.println("✔ Update Price Successfully!");
+                        break;
+                    case 4:
+                        String newGender = Util.nextLineWithPromt("Enter new gender: ");
+                        while(!newGender.equalsIgnoreCase("Male") && !newGender.equalsIgnoreCase("Female")){
+                            newGender = Util.nextLineWithPromt("Invalid gender, please enter again: ");
+                        }
+                        dog.setGender(newGender);
+                        System.out.println("✔ Update Gender Successfully!");
+                        break;
+                    case 5:
+                        isEditing = false;
+                        System.out.println("Exit Editing...\n");
+                        break;
+                }
 
-            String newName = Util.nextLineWithPromt("Enter new name (press Enter to pass): ");
-            if (!newName.isEmpty()) dog.setName(newName);
-
-            System.out.print("Enter new age (press -1 to pass): ");
-            int newAge = Util.enterPositveInt();
-            if (newAge >= 0) dog.setAge(newAge);
-
-            System.out.print("Enter new price (press -1 to pass): ");
-            double newPrice = Util.entePositiverDouble();
-            if (newPrice >= 0) dog.setPrice(newPrice);
-
-            String newGender = Util.nextLineWithPromt("Enter new gender (press Enter to pass): ");
-            if (!newGender.isEmpty()) dog.setGender(newGender);
-
-            petMap.put(id, dog);
-            System.out.println("* Edit Dog Information successfully!");
+                if(isEditing){
+                    String isContinue;
+                    do{
+                        isContinue = Util.nextLineWithPromt("Do you want to continue editing (Y/N): ");
+                        if(!isContinue.equalsIgnoreCase("Y")&&!isContinue.equalsIgnoreCase("N")){
+                            System.out.println("Invalid input. Please enter Y or N");
+                        }
+                    } while (!isContinue.equalsIgnoreCase("Y")&&!isContinue.equalsIgnoreCase("N"));
+                    if(isContinue.equalsIgnoreCase("N")){
+                        isEditing = false;
+                        System.out.println("Exit Editing...\n");
+                    }
+                }
+            }
         }
         else if(pet instanceof Cat){
             System.out.println("No exist Dog because found Cat with the ID " + id + " instead");
@@ -127,8 +161,10 @@ public class DogService implements PetService{
         System.out.printf("|%-5s|%-20s|%-5s|%-10s|%-7s|\n", "ID", "Name", "Age", "Price", "Gender");
         System.out.println("|-----|--------------------|-----|----------|-------|");
         for(Map.Entry<Integer, Pet> entry : petMap.entrySet()){
-            if(entry.getValue() instanceof Dog){
-                System.out.printf("|%-5d|%-20s|%-5d|%-10lf|%-7s|\n", entry.getValue().getID(), entry.getValue().getName(), entry.getValue().getAge(), entry.getValue().getPrice(), entry.getValue().getGender());
+            Pet pet = entry.getValue();
+            if(pet instanceof Dog){
+                Dog dog = (Dog) pet;
+                System.out.printf("|%-5d|%-20s|%-5d|%-10.2f|%-7s|\n", dog.getID(), dog.getName(), dog.getAge(), dog.getPrice(), dog.getGender());
                 hasDog = true;
             }
         }
