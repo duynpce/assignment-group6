@@ -88,7 +88,8 @@ public class DogService implements PetService{
 
         if(pet instanceof Dog){
             Dog dog = (Dog) pet;
-            System.out.println("Current information: " + dog);
+            System.out.println("Current information: ");
+            dog.display();
 
             String newName = Util.nextLineWithPromt("Enter new name (press Enter to pass): ");
             if (!newName.isEmpty()) dog.setName(newName);
