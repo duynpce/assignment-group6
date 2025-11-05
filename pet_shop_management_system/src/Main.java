@@ -1,11 +1,15 @@
 
+import Service.CustomerService;
 import Service.PetService;
+import Service.TransactionService;
 import Utility.*;
 public class Main {
     public static void main(String[] args) {
         boolean running = true;
 
-       PetService.load();
+        TransactionService.load();
+        CustomerService.load();
+        PetService.load();
         while(running){
             Screen.managementScreen();
             switch (Util.choice) {
@@ -22,6 +26,8 @@ public class Main {
             running =  stop != 1;
         } 
         PetService.save();
+        TransactionService.save();
+        CustomerService.save();
 
     } 
 }
